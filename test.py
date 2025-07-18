@@ -56,3 +56,7 @@ def roll_dice():
     draw_tokens()
     info_label.config(text=f"{current.capitalize()} rolled a {dice}")
     next_turn()
+
+#  switch
+def next_turn():
+    player_turn.set("blue" if player_turn.get() == "red" else "red")
