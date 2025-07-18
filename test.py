@@ -7,6 +7,13 @@ CELL_SIZE = 60
 WINDOW_WIDTH = CELL_SIZE * BOARD_SIZE
 WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100
 
+# Start positions
+positions = {"red": 0, "blue": 0}
+
+# Initialize window
+root = tk.Tk()
+root.title("Snakes and Ladders - Setup 1")
+
 # Roll dice function
 def roll_dice():
     dice = random.randint(1, 6)
