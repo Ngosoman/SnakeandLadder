@@ -10,6 +10,27 @@ WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100  # extra height for controls
 # Start positions
 positions = {"red": 0, "blue": 0}
 
+# ladders and snakes
+ladders = {
+    3: 22,
+    5: 8,
+    11: 26,
+    20: 29,
+    27: 56,
+    21: 82,
+}
+
+snakes = {
+    17: 4,
+    19: 7,
+    23: 15,
+    54: 34,
+    62: 18,
+    87: 24,
+    99: 2,
+}
+
+
 # Initialize window
 root = tk.Tk()
 root.title("Snakes and Ladders - Setup 1")
@@ -110,22 +131,3 @@ info_label.pack()
 root.mainloop()
 
 
-# ladders and snakes
-ladders = {
-    3: 22,
-    5: 8,
-    11: 26,
-    20: 29,
-    27: 56,
-    21: 82,
-}
-
-snakes = {
-    17: 4,
-    19: 7,
-    23: 15,
-    54: 34,
-    62: 18,
-    87: 24,
-    99: 2,
-}
