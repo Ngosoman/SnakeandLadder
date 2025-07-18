@@ -31,6 +31,14 @@ def draw_board():
             canvas.create_text(x1 + 30, y1 + 30, text=str(number))
             number -= 1
 
+# Get x, y from position (1–100)
+def get_coordinates(position):
+    row = 9 - (position // 10)
+    col = position % 10 if (row % 2 == 0) else 9 - (position % 10)
+    x = col * CELL_SIZE + CELL_SIZE // 2
+    y = row * CELL_SIZE + CELL_SIZE // 2
+    return x, y
+
 # Roll dice function
 def roll_dice():
     dice = random.randint(1, 6)
