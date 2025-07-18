@@ -48,14 +48,6 @@ def draw_tokens():
             canvas.delete(tokens[color])
         tokens[color] = canvas.create_oval(x-15, y-15, x+15, y+15, fill=color)
 
-# Roll dice function
-def roll_dice():
-    dice = random.randint(1, 6)
-    current = player_turn.get()
-    positions[current] = min(positions[current] + dice, 99)
-    draw_tokens()
-    info_label.config(text=f"{current.capitalize()} rolled a {dice}")
-    next_turn()
 
 #  switch
 def next_turn():
@@ -70,6 +62,16 @@ dice_button.pack(pady=10)
 
 info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
 info_label.pack()
+
+# Roll dice function
+def roll_dice():
+    dice = random.randint(1, 6)
+    current = player_turn.get()
+    positions[current] = min(positions[current] + dice, 99)
+    draw_tokens()
+    info_label.config(text=f"{current.capitalize()} rolled a {dice}")
+    next_turn()
+
 
 # Init game
 draw_board()
