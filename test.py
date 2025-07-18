@@ -1,6 +1,12 @@
 import tkinter as tk
 import random
 
+# Constants
+BOARD_SIZE = 10
+CELL_SIZE = 60
+WINDOW_WIDTH = CELL_SIZE * BOARD_SIZE
+WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100
+
 # Roll dice function
 def roll_dice():
     dice = random.randint(1, 6)
