@@ -14,6 +14,10 @@ positions = {"red": 0, "blue": 0}
 root = tk.Tk()
 root.title("Snakes and Ladders - Setup 1")
 
+# Canvas for board
+canvas = tk.Canvas(root, width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
+canvas.pack()
+
 # Roll dice function
 def roll_dice():
     dice = random.randint(1, 6)
