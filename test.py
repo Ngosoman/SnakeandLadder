@@ -78,3 +78,24 @@ info_label.pack()
 
 # Run app
 root.mainloop()
+
+
+# ladders and snakes
+ladders = {
+    3: 22,
+    5: 8,
+    11: 26,
+    20: 29,
+    27: 56,
+    21: 82,
+}
+
+snakes = {
+    17: 4,
+    19: 7,
+    23: 15,
+    54: 34,
+    62: 18,
+    87: 24,
+    99: 2,
+}
