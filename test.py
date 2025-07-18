@@ -64,6 +64,36 @@ def next_turn():
 #     info_label.config(text=f"{current.capitalize()} rolled a {dice}")
 #     next_turn()
 
+def roll_dice():
+    dice = random.randint(1, 6)
+    current = player_turn.get()
+    old_position = positions[current]
+    new_position = min(old_position + dice, 99)
+
+    # Check for ladders
+    if new_position in ladders:
+        info_label.config(text=f"{current.capitalize()} rolled {dice} 🎲 and climbed a ladder! ⬆️")
+        new_position = ladders[new_position]
+
+    # Check for snakes
+    elif new_position in snakes:
+        info_label.config(text=f"{current.capitalize()} rolled {dice} 🎲 and got bitten by a snake! 🐍")
+        new_position = snakes[new_position]
+
+    else:
+        info_label.config(text=f"{current.capitalize()} rolled a {dice}")
+
+    positions[current] = new_position
+    draw_tokens()
+
+    # Check win
+    if new_position == 99:
+        info_label.config(text=f"{current.capitalize()} wins! 🎉")
+        dice_button.config(state="disabled")
+    else:
+        next_turn()
+
+
 # Draw board & tokens
 draw_board()
 draw_tokens()
