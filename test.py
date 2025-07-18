@@ -70,3 +70,10 @@ dice_button.pack(pady=10)
 
 info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
 info_label.pack()
+
+# Init game
+draw_board()
+draw_tokens()
+
+# Run app
+root.mainloop()
