@@ -64,3 +64,9 @@ def next_turn():
 
 # Controls
 player_turn = tk.StringVar(value="red")
+
+dice_button = tk.Button(root, text="Roll Dice", command=roll_dice, font=("Arial", 16))
+dice_button.pack(pady=10)
+
+info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
+info_label.pack()
