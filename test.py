@@ -60,3 +60,7 @@ def roll_dice():
 #  switch
 def next_turn():
     player_turn.set("blue" if player_turn.get() == "red" else "red")
+
+
+# Controls
+player_turn = tk.StringVar(value="red")
