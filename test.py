@@ -39,6 +39,15 @@ def get_coordinates(position):
     y = row * CELL_SIZE + CELL_SIZE // 2
     return x, y
 
+# Draw tokens
+tokens = {}
+def draw_tokens():
+    for color in ["red", "blue"]:
+        x, y = get_coordinates(positions[color])
+        if color in tokens:
+            canvas.delete(tokens[color])
+        tokens[color] = canvas.create_oval(x-15, y-15, x+15, y+15, fill=color)
+
 # Roll dice function
 def roll_dice():
     dice = random.randint(1, 6)
