@@ -5,7 +5,7 @@ import random
 BOARD_SIZE = 10
 CELL_SIZE = 60
 WINDOW_WIDTH = CELL_SIZE * BOARD_SIZE
-WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100
+WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100  # extra height for controls
 
 # Start positions
 positions = {"red": 0, "blue": 0}
@@ -31,7 +31,7 @@ def draw_board():
             canvas.create_text(x1 + 30, y1 + 30, text=str(number))
             number -= 1
 
-# Get x, y from position (1–100)
+# Get x, y from position (0–99)
 def get_coordinates(position):
     row = 9 - (position // 10)
     col = position % 10 if (row % 2 == 0) else 9 - (position % 10)
@@ -48,22 +48,14 @@ def draw_tokens():
             canvas.delete(tokens[color])
         tokens[color] = canvas.create_oval(x-15, y-15, x+15, y+15, fill=color)
 
+# Turn tracker
+player_turn = tk.StringVar(value="red")
 
-#  switch
+# Turn switch
 def next_turn():
     player_turn.set("blue" if player_turn.get() == "red" else "red")
 
-
-# Controls
-player_turn = tk.StringVar(value="red")
-
-dice_button = tk.Button(root, text="Roll Dice", command=roll_dice, font=("Arial", 16))
-dice_button.pack(pady=10)
-
-info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
-info_label.pack()
-
-# Roll dice function
+# Dice roll
 def roll_dice():
     dice = random.randint(1, 6)
     current = player_turn.get()
@@ -72,10 +64,17 @@ def roll_dice():
     info_label.config(text=f"{current.capitalize()} rolled a {dice}")
     next_turn()
 
-
-# Init game
+# Draw board & tokens
 draw_board()
 draw_tokens()
+
+# Dice Button
+dice_button = tk.Button(root, text="Roll Dice", command=roll_dice, font=("Arial", 16))
+dice_button.pack(pady=10)
+
+# Info Label
+info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
+info_label.pack()
 
 # Run app
 root.mainloop()
