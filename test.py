@@ -32,7 +32,7 @@ ladders = {
 class SnakesAndLadders:
     def __init__(self, root):
         self.root = root
-        self.root.title("🎲 Snakes and Ladders")
+        self.root.title("Snakes and Ladders")
 
         self.canvas = tk.Canvas(root, width=BOARD_SIZE * SQUARE_SIZE, height=BOARD_SIZE * SQUARE_SIZE + 100)
         self.canvas.pack()
@@ -103,7 +103,7 @@ class SnakesAndLadders:
         # Check for snakes and ladders
         if new_position in snakes:
             final_position = snakes[new_position]
-            self.message_label.config(text=f" Wooiye! Snake from {new_position} to {final_position}")
+            self.message_label.config(text=f" Wooiye! from {new_position} to {final_position} Take heart manze!")
             new_position = final_position
         elif new_position in ladders:
             final_position = ladders[new_position]
@@ -116,7 +116,7 @@ class SnakesAndLadders:
         self.draw_token()
 
         if self.player_position == 100:
-            messagebox.showinfo(" Game Over", "Congratulations! You reached 100.")
+            messagebox.showinfo(" Game Over", "Congratulations! Mzito You nailed it manze! You reached 100.")
             self.roll_button.config(state=tk.DISABLED)
 
 # Start game
