@@ -1,132 +1,126 @@
 import tkinter as tk
+from tkinter import messagebox
 import random
 
-# Constants
 BOARD_SIZE = 10
-CELL_SIZE = 60
-WINDOW_WIDTH = CELL_SIZE * BOARD_SIZE
-WINDOW_HEIGHT = CELL_SIZE * BOARD_SIZE + 100
+SQUARE_SIZE = 60
 
-# Player positions
-positions = {"red": 0, "blue": 0}
-
-# Snakes and ladders
-ladders = {
-    3: 22,
-    5: 8,
-    11: 26,
-    20: 29,
-    27: 56,
-    21: 82,
-}
-
+# Snakes and ladders mapping
 snakes = {
-    17: 4,
-    19: 7,
-    23: 15,
-    54: 34,
-    62: 18,
-    87: 24,
-    99: 2,
+    16: 6,
+    48: 30,
+    64: 60,
+    79: 19,
+    93: 68,
+    95: 24,
+    97: 76,
+    98: 78
 }
 
-# Initialize window
-root = tk.Tk()
-root.title("Snakes and Ladders")
+ladders = {
+    1: 38,
+    4: 14,
+    9: 31,
+    21: 42,
+    28: 84,
+    36: 44,
+    51: 67,
+    71: 91,
+    80: 100
+}
 
-canvas = tk.Canvas(root, width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
-canvas.pack()
+class SnakesAndLadders:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("🎲 Snakes and Ladders")
 
-# Draw board grid with numbers
-def draw_board():
-    number = 100
-    for row in range(BOARD_SIZE):
-        for col in range(BOARD_SIZE):
-            x1 = col * CELL_SIZE if row % 2 == 0 else (9 - col) * CELL_SIZE
-            y1 = row * CELL_SIZE
-            x2 = x1 + CELL_SIZE
-            y2 = y1 + CELL_SIZE
-            canvas.create_rectangle(x1, y1, x2, y2, fill="white", outline="black")
-            canvas.create_text(x1 + 30, y1 + 30, text=str(number))
-            number -= 1
+        self.canvas = tk.Canvas(root, width=BOARD_SIZE * SQUARE_SIZE, height=BOARD_SIZE * SQUARE_SIZE + 100)
+        self.canvas.pack()
 
-# Get pixel coordinates from position
-def get_coordinates(position):
-    row = 9 - (position // 10)
-    col = position % 10 if (row % 2 == 0) else 9 - (position % 10)
-    x = col * CELL_SIZE + CELL_SIZE // 2
-    y = row * CELL_SIZE + CELL_SIZE // 2
-    return x, y
+        self.draw_board()
 
-# Draw tokens on board
-tokens = {}
-def draw_tokens():
-    for color in ["red", "blue"]:
-        x, y = get_coordinates(positions[color])
-        if color in tokens:
-            canvas.delete(tokens[color])
-        tokens[color] = canvas.create_oval(x-15, y-15, x+15, y+15, fill=color)
+        self.player_position = 1
+        self.token = None
 
-# Turn control
-player_turn = tk.StringVar(value="red")
+        self.create_widgets()
+        self.draw_token()
 
-def next_turn():
-    player_turn.set("blue" if player_turn.get() == "red" else "red")
+    def draw_board(self):
+        color = "white"
+        for row in range(BOARD_SIZE):
+            for col in range(BOARD_SIZE):
+                x1 = col * SQUARE_SIZE
+                y1 = (BOARD_SIZE - 1 - row) * SQUARE_SIZE
+                x2 = x1 + SQUARE_SIZE
+                y2 = y1 + SQUARE_SIZE
 
-# Dice roll and move logic
-def roll_dice():
-    dice = random.randint(1, 6)
-    current = player_turn.get()
-    old_position = positions[current]
-    new_position = min(old_position + dice, 99)
+                square_num = self.get_square_number(row, col)
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="black")
+                self.canvas.create_text(x1 + SQUARE_SIZE/2, y1 + SQUARE_SIZE/2, text=str(square_num), font=("Arial", 10))
 
-    print(f"{current} rolled {dice} and moved from {old_position} to {new_position}")
+    def get_square_number(self, row, col):
+        if row % 2 == 0:
+            return row * BOARD_SIZE + col + 1
+        else:
+            return row * BOARD_SIZE + (BOARD_SIZE - col)
 
-    # Ladder check
-    if new_position in ladders:
-        info_label.config(text=f"{current.capitalize()} rolled {dice} 🎲 and climbed a ladder! ⬆️")
-        print(f"LADDER: {current} goes from {new_position} to {ladders[new_position]}")
-        new_position = ladders[new_position]
+    def get_coords(self, position):
+        row = (position - 1) // BOARD_SIZE
+        col = (position - 1) % BOARD_SIZE
 
-    # Snake check
-    elif new_position in snakes:
-        info_label.config(text=f"{current.capitalize()} rolled {dice} 🎲 and got bitten by a snake! 🐍")
-        print(f"SNAKE: {current} goes from {new_position} to {snakes[new_position]}")
-        new_position = snakes[new_position]
+        if row % 2 == 1:
+            col = BOARD_SIZE - 1 - col
 
-    else:
-        info_label.config(text=f"{current.capitalize()} rolled a {dice}")
+        x = col * SQUARE_SIZE + SQUARE_SIZE / 2
+        y = (BOARD_SIZE - 1 - row) * SQUARE_SIZE + SQUARE_SIZE / 2
+        return x, y
 
-    positions[current] = new_position
-    draw_tokens()
+    def draw_token(self):
+        if self.token:
+            self.canvas.delete(self.token)
+        x, y = self.get_coords(self.player_position)
+        self.token = self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="blue")
 
-    if new_position == 99:
-        info_label.config(text=f"{current.capitalize()} wins! 🎉")
-        dice_button.config(state="disabled")
-    else:
-        next_turn()
+    def create_widgets(self):
+        self.roll_button = tk.Button(self.root, text="🎲 Roll Dice", font=("Arial", 14), command=self.roll_dice)
+        self.canvas.create_window(150, BOARD_SIZE * SQUARE_SIZE + 50, window=self.roll_button)
 
-# Reset game
-def reset_game():
-    positions["red"] = 0
-    positions["blue"] = 0
-    player_turn.set("red")
-    draw_tokens()
-    info_label.config(text="Game reset! Red starts.")
-    dice_button.config(state="normal")
+        self.dice_label = tk.Label(self.root, text="🎯 Dice: ", font=("Arial", 14))
+        self.canvas.create_window(350, BOARD_SIZE * SQUARE_SIZE + 50, window=self.dice_label)
 
-# UI
-draw_board()
-draw_tokens()
+        self.message_label = tk.Label(self.root, text="", font=("Arial", 12), fg="green")
+        self.canvas.create_window(550, BOARD_SIZE * SQUARE_SIZE + 50, window=self.message_label)
 
-dice_button = tk.Button(root, text="Roll Dice", command=roll_dice, font=("Arial", 16))
-dice_button.pack(pady=5)
+    def roll_dice(self):
+        dice = random.randint(1, 6)
+        self.dice_label.config(text=f"🎯 Dice: {dice}")
+        new_position = self.player_position + dice
 
-info_label = tk.Label(root, text="Red starts!", font=("Arial", 14))
-info_label.pack()
+        if new_position > 100:
+            self.message_label.config(text="🚫 Can't move. Wait for next roll.")
+            return
 
-reset_button = tk.Button(root, text="Reset Game", command=reset_game, font=("Arial", 12))
-reset_button.pack()
+        # Check for snakes and ladders
+        if new_position in snakes:
+            final_position = snakes[new_position]
+            self.message_label.config(text=f"🐍 Oops! Snake from {new_position} to {final_position}")
+            new_position = final_position
+        elif new_position in ladders:
+            final_position = ladders[new_position]
+            self.message_label.config(text=f"🪜 Yay! Ladder from {new_position} to {final_position}")
+            new_position = final_position
+        else:
+            self.message_label.config(text=f"You moved to {new_position}")
 
-# Launch app
-root.mainloop()
+        self.player_position = new_position
+        self.draw_token()
+
+        if self.player_position == 100:
+            messagebox.showinfo("🎉 Game Over", "Congratulations! You reached 100.")
+            self.roll_button.config(state=tk.DISABLED)
+
+# Run the game
+if __name__ == "__main__":
+    root = tk.Tk()
+    game = SnakesAndLadders(root)
+    root.mainloop()
