@@ -5,7 +5,7 @@ import random
 BOARD_SIZE = 10
 SQUARE_SIZE = 60
 
-# Snakes and ladders mapping
+# Snakes and ladders
 snakes = {
     16: 6,
     48: 30,
@@ -119,7 +119,7 @@ class SnakesAndLadders:
             messagebox.showinfo("🎉 Game Over", "Congratulations! You reached 100.")
             self.roll_button.config(state=tk.DISABLED)
 
-# Run the game
+# Start game
 if __name__ == "__main__":
     root = tk.Tk()
     game = SnakesAndLadders(root)
