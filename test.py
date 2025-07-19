@@ -46,7 +46,7 @@ class SnakesAndLadders:
         self.draw_token()
 
     def draw_board(self):
-        color = "white"
+        color = "burlywood"
         for row in range(BOARD_SIZE):
             for col in range(BOARD_SIZE):
                 x1 = col * SQUARE_SIZE
@@ -82,10 +82,10 @@ class SnakesAndLadders:
         self.token = self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="blue")
 
     def create_widgets(self):
-        self.roll_button = tk.Button(self.root, text="🎲 Roll Dice", font=("Arial", 14), command=self.roll_dice)
+        self.roll_button = tk.Button(self.root, text="Roll Dice", font=("Arial", 14), command=self.roll_dice)
         self.canvas.create_window(150, BOARD_SIZE * SQUARE_SIZE + 50, window=self.roll_button)
 
-        self.dice_label = tk.Label(self.root, text="🎯 Dice: ", font=("Arial", 14))
+        self.dice_label = tk.Label(self.root, text=" Dice: ", font=("Arial", 14))
         self.canvas.create_window(350, BOARD_SIZE * SQUARE_SIZE + 50, window=self.dice_label)
 
         self.message_label = tk.Label(self.root, text="", font=("Arial", 12), fg="green")
@@ -93,21 +93,21 @@ class SnakesAndLadders:
 
     def roll_dice(self):
         dice = random.randint(1, 6)
-        self.dice_label.config(text=f"🎯 Dice: {dice}")
+        self.dice_label.config(text=f"Dice: {dice}")
         new_position = self.player_position + dice
 
         if new_position > 100:
-            self.message_label.config(text="🚫 Can't move. Wait for next roll.")
+            self.message_label.config(text="Imagine huwezi songa. Wait for next roll.")
             return
 
         # Check for snakes and ladders
         if new_position in snakes:
             final_position = snakes[new_position]
-            self.message_label.config(text=f"🐍 Oops! Snake from {new_position} to {final_position}")
+            self.message_label.config(text=f" Wooiye! Snake from {new_position} to {final_position}")
             new_position = final_position
         elif new_position in ladders:
             final_position = ladders[new_position]
-            self.message_label.config(text=f"🪜 Yay! Ladder from {new_position} to {final_position}")
+            self.message_label.config(text=f" Hapo Sawa Mzito! Ladder from {new_position} to {final_position}")
             new_position = final_position
         else:
             self.message_label.config(text=f"You moved to {new_position}")
@@ -116,7 +116,7 @@ class SnakesAndLadders:
         self.draw_token()
 
         if self.player_position == 100:
-            messagebox.showinfo("🎉 Game Over", "Congratulations! You reached 100.")
+            messagebox.showinfo(" Game Over", "Congratulations! You reached 100.")
             self.roll_button.config(state=tk.DISABLED)
 
 # Start game
