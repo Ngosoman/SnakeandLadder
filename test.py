@@ -5,7 +5,7 @@ import random
 BOARD_SIZE = 10
 SQUARE_SIZE = 60
 
-# Snakes and ladders positions
+# Snakes and ladders
 snakes = {
     16: 6, 48: 30, 64: 60, 79: 19,
     93: 68, 95: 24, 97: 76, 98: 78
@@ -80,7 +80,7 @@ class SnakesAndLadders:
         self.token = self.canvas.create_oval(x - 10, y - 10, x + 10, y + 10, fill="blue")
 
     def create_widgets(self):
-        self.roll_button = tk.Button(self.root, text="Roll Dice 🎲", font=("Arial", 14), command=self.roll_dice)
+        self.roll_button = tk.Button(self.root, text="Roll Dice ", font=("Arial", 14), command=self.roll_dice)
         self.canvas.create_window(150, BOARD_SIZE * SQUARE_SIZE + 50, window=self.roll_button)
 
         self.dice_label = tk.Label(self.root, text="Dice: ", font=("Arial", 14))
@@ -95,16 +95,16 @@ class SnakesAndLadders:
         new_position = self.player_position + dice
 
         if new_position > 100:
-            self.message_label.config(text="😅 Imagine huwezi songa. Wait for next roll.")
+            self.message_label.config(text=" Imagine huwezi songa. Wait for next roll.")
             return
 
         if new_position in snakes:
             final_position = snakes[new_position]
-            self.message_label.config(text=f"🐍 Wooiye! from {new_position} to {final_position}. Take heart manze!")
+            self.message_label.config(text=f"Wooiye! from {new_position} to {final_position}. Take heart manze!")
             new_position = final_position
         elif new_position in ladders:
             final_position = ladders[new_position]
-            self.message_label.config(text=f"🪜 Hapo Sawa Mzito! Ladder from {new_position} to {final_position}")
+            self.message_label.config(text=f"Hapo Sawa Mzito! Ladder from {new_position} to {final_position}")
             new_position = final_position
         else:
             self.message_label.config(text=f"You moved to {new_position}")
@@ -113,7 +113,7 @@ class SnakesAndLadders:
         self.draw_token()
 
         if self.player_position == 100:
-            messagebox.showinfo("🎉 Game Over", "Congratulations Mzito! 🎯 You nailed it! Reached 100!")
+            messagebox.showinfo("Game Over", "Congratulations Mzito! You nailed it! Reached 100!")
             self.roll_button.config(state=tk.DISABLED)
 
 # Run the game
