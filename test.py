@@ -24,10 +24,11 @@ class SnakesAndLadders:
         self.canvas.pack()
 
         self.draw_board()
+        self.draw_snakes_and_ladders()
 
         self.player_positions = [1, 1]
         self.tokens = [None, None]
-        self.current_player = 0 
+        self.current_player = 0  
 
         self.create_widgets()
         self.draw_tokens()
@@ -43,6 +44,19 @@ class SnakesAndLadders:
                 square_num = self.get_square_number(row, col)
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill="burlywood", outline="black")
                 self.canvas.create_text(x1 + SQUARE_SIZE/2, y1 + SQUARE_SIZE/2, text=str(square_num), font=("Arial", 10))
+
+    def draw_snakes_and_ladders(self):
+        # Draw ladders (green)
+        for start, end in ladders.items():
+            x1, y1 = self.get_coords(start)
+            x2, y2 = self.get_coords(end)
+            self.canvas.create_line(x1, y1, x2, y2, fill="green", width=4, arrow=tk.LAST)
+
+        # Draw snakes (red)
+        for start, end in snakes.items():
+            x1, y1 = self.get_coords(start)
+            x2, y2 = self.get_coords(end)
+            self.canvas.create_line(x1, y1, x2, y2, fill="red", width=4, arrow=tk.LAST)
 
     def get_square_number(self, row, col):
         if row % 2 == 0:
@@ -66,7 +80,7 @@ class SnakesAndLadders:
             if self.tokens[i]:
                 self.canvas.delete(self.tokens[i])
             x, y = self.get_coords(self.player_positions[i])
-            offset = -10 if i == 0 else 10  # offset tokens slightly to avoid overlap
+            offset = -10 if i == 0 else 10 
             self.tokens[i] = self.canvas.create_oval(
                 x - 10 + offset, y - 10, x + 10 + offset, y + 10, fill=colors[i]
             )
@@ -92,7 +106,7 @@ class SnakesAndLadders:
             self.switch_turn()
             return
 
-        # Check for snake or ladder
+        # Check Snake/Ladder
         if new_pos in snakes:
             final = snakes[new_pos]
             msg = f"Snake! Player {self.current_player + 1} drops from {new_pos} to {final}"
@@ -119,7 +133,7 @@ class SnakesAndLadders:
         self.current_player = 1 - self.current_player
         self.message_label.config(text=f"Player {self.current_player + 1}'s Turn")
 
-# Launch the game
+# Run game
 if __name__ == "__main__":
     root = tk.Tk()
     game = SnakesAndLadders(root)
