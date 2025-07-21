@@ -27,7 +27,7 @@ class SnakesAndLadders:
 
         self.player_positions = [1, 1]
         self.tokens = [None, None]
-        self.current_player = 0  # 0: Player 1, 1: Player 2
+        self.current_player = 0 
 
         self.create_widgets()
         self.draw_tokens()
@@ -95,11 +95,11 @@ class SnakesAndLadders:
         # Check for snake or ladder
         if new_pos in snakes:
             final = snakes[new_pos]
-            msg = f"😬 Snake! Player {self.current_player + 1} drops from {new_pos} to {final}"
+            msg = f"Snake! Player {self.current_player + 1} drops from {new_pos} to {final}"
             new_pos = final
         elif new_pos in ladders:
             final = ladders[new_pos]
-            msg = f"🎉 Ladder! Player {self.current_player + 1} climbs from {new_pos} to {final}"
+            msg = f"Ladder! Player {self.current_player + 1} climbs from {new_pos} to {final}"
             new_pos = final
         else:
             msg = f"Player {self.current_player + 1} moved to {new_pos}"
@@ -108,7 +108,7 @@ class SnakesAndLadders:
         self.draw_tokens()
 
         if new_pos == 100:
-            messagebox.showinfo("🏆 Game Over", f"🎉 Player {self.current_player + 1} wins!")
+            messagebox.showinfo("Game Over", f"Player {self.current_player + 1} wins!")
             self.roll_button.config(state=tk.DISABLED)
             return
 
